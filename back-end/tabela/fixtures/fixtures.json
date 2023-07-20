@@ -1,0 +1,23 @@
+[
+    {
+        "model": "tabela.TipoLancamento",
+        "pk": "R",
+        "fields": {
+            "descricao": "Receber"
+        }
+    },
+    {
+        "model": "tabela.TipoLancamento",
+        "pk": "P",
+        "fields": {
+            "descricao": "Pagar"
+        }
+    },
+    {
+        "model": "tabela.TipoLancamento",
+        "pk": "O",
+        "fields": {
+            "descricao": "Outro"
+        }
+    }
+]
