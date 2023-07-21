@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 
 class Categoria(models.Model):
-    codigo = models.UUIDField(primary_key=True, db_column='id_categoria', default=uuid.uuid4)
+    codigo = models.UUIDField(primary_key=True, default=uuid.uuid4, db_column='cod_categoria')
     descricao = models.CharField(max_length=70)
 
     def __str__(self):

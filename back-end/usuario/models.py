@@ -20,7 +20,7 @@ class UsuarioManager(BaseUserManager):
         return usuario
 
 class Usuario(AbstractBaseUser):
-    id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, db_column='id_usuario')
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, db_column='cod_usuario')
     username = None
     email = models.CharField(max_length=150, unique=True)
     nome = models.CharField(max_length=100, verbose_name='Nome Completo')
