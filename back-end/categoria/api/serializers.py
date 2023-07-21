@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
-from tabela.models import *
+from categoria.models import Categoria
 
-class TipoLancamentoSerializer(ModelSerializer):
+class CategoriaSerializer(ModelSerializer):
     class Meta:
-        model = TipoLancamento
+        model = Categoria
         fields =  '__all__'

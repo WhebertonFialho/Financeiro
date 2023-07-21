@@ -2,9 +2,11 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from categoria.api.viewsets import CategoriaViewSet
 from tabela.api.viewsets import *
 
 router = routers.DefaultRouter()
+router.register(r'categoria', CategoriaViewSet, basename='Categoria')
 router.register(r'tipo_lancamento', TipoLancamentoViewSet, basename='TipoLancamento')
 
 urlpatterns = [ 
