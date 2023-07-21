@@ -1,7 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+
 from categoria.models import Categoria
 from .serializers import CategoriaSerializer
-from rest_framework.permissions import IsAuthenticated
 
 class CategoriaViewSet(ModelViewSet):
     #permission_classes = (IsAuthenticated,)
