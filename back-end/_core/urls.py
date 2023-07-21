@@ -3,12 +3,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
+from conta_bancaria.api.viewsets import ContaBancariaViewSet
 from categoria.api.viewsets import CategoriaViewSet
 from tabela.api.viewsets import *
 from usuario.api.viewsets import *
 
 router = routers.DefaultRouter()
 router.register(r'banco', BancoViewSet, basename='Banco')
+router.register(r'conta_bancaria', ContaBancariaViewSet, basename='ContaBancaria')
 router.register(r'categoria', CategoriaViewSet, basename='Categoria')
 router.register(r'tipo_lancamento', TipoLancamentoViewSet, basename='TipoLancamento')
 router.register(r'auth/usuario', UsuariosViewSet, basename='Usuarios')
