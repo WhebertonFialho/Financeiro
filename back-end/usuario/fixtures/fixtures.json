@@ -1,0 +1,13 @@
+[
+    { 
+        "model": "usuario.Usuario",
+        "fields": {
+            "email": "admin@admin.com",
+            "nome": "Administrador",
+            "cpf": "000.000.000-00",
+            "password": "pbkdf2_sha256$600000$7XG3QyibtjPHpTo8rXUdIq$Ap8DH/lMlfIoVphc5adZSY3G3UmOQR5nxnLXYYgeNRA=",
+            "is_admin": true,
+            "altera_senha": false
+        }
+    }
+]
