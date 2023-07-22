@@ -1603,6 +1603,48 @@
         }
     },
     {
+        "model": "tabela.BandeiraCartao",
+        "pk": 1,
+        "fields": {
+            "descricao": "Mastercard"
+        }
+    },
+    {
+        "model": "tabela.BandeiraCartao",
+        "pk": 2,
+        "fields": {
+            "descricao": "Visa"
+        }
+    },
+    {
+        "model": "tabela.BandeiraCartao",
+        "pk": 3,
+        "fields": {
+            "descricao": "Elo"
+        }
+    },
+    {
+        "model": "tabela.BandeiraCartao",
+        "pk": 4,
+        "fields": {
+            "descricao": "American Express"
+        }
+    },
+    {
+        "model": "tabela.BandeiraCartao",
+        "pk": 5,
+        "fields": {
+            "descricao": "Hipercard"
+        }
+    },
+    {
+        "model": "tabela.BandeiraCartao",
+        "pk": 9,
+        "fields": {
+            "descricao": "Outra"
+        }
+    },
+    {
         "model": "tabela.TipoCartao",
         "pk": "C",
         "fields": {

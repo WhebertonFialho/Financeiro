@@ -10,6 +10,7 @@ from usuario.api.viewsets import *
 
 router = routers.DefaultRouter()
 router.register(r'banco', BancoViewSet, basename='Banco')
+router.register(r'bandeira_cartao', BandeiraCartaoViewSet, basename='Banco')
 router.register(r'conta_bancaria', ContaBancariaViewSet, basename='ContaBancaria')
 router.register(r'categoria', CategoriaViewSet, basename='Categoria')
 router.register(r'tipo_cartao', TipoCartaoViewSet, basename='TipoCartao')

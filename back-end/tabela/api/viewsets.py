@@ -10,12 +10,17 @@ class BancoViewSet(ModelViewSet):
     serializer_class = BancoSerializer
     filterset_fields = ['codigo', 'descricao']
 
+class BandeiraCartaoViewSet(ModelViewSet):
+    #authentication_classes = (TokenAuthentication,)
+    queryset = BandeiraCartao.objects.all()
+    serializer_class = BandeiraCartaoSerializer
+    filterset_fields = ['codigo', 'descricao']
+
 class TipoCartaoViewSet(ModelViewSet):
     #authentication_classes = (TokenAuthentication,)
     queryset = TipoCartao.objects.all()
     serializer_class = TipoCartaoSerializer
     filterset_fields = ['codigo', 'descricao']
-
 
 class TipoLancamentoViewSet(ModelViewSet):
     #authentication_classes = (TokenAuthentication,)

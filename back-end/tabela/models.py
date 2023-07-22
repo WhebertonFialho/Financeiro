@@ -11,6 +11,18 @@ class Banco(models.Model):
         verbose_name = 'Banco'
         verbose_name_plural = 'Bancos'
         db_table = 'tab_banco'
+
+class BandeiraCartao(models.Model):
+    codigo = models.AutoField(primary_key=True, db_column='cod_bandeira_cartao')
+    descricao = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.descricao
+    
+    class Meta:
+        verbose_name = 'Bandeira Cartão'
+        verbose_name_plural = 'Bandeiras Cartão'
+        db_table = 'tab_bandeira_cartao'
    
 class TipoCartao(models.Model):
     codigo = models.CharField(primary_key=True, max_length=1, db_column='cod_tipo_cartao')
