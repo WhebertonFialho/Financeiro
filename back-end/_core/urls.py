@@ -12,6 +12,7 @@ router = routers.DefaultRouter()
 router.register(r'banco', BancoViewSet, basename='Banco')
 router.register(r'conta_bancaria', ContaBancariaViewSet, basename='ContaBancaria')
 router.register(r'categoria', CategoriaViewSet, basename='Categoria')
+router.register(r'tipo_cartao', TipoCartaoViewSet, basename='TipoCartao')
 router.register(r'tipo_lancamento', TipoLancamentoViewSet, basename='TipoLancamento')
 router.register(r'auth/usuario', UsuariosViewSet, basename='Usuarios')
 

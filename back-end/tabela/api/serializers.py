@@ -6,6 +6,11 @@ class BancoSerializer(ModelSerializer):
         model = Banco
         fields = '__all__'
 
+class TipoCartaoSerializer(ModelSerializer):
+    class Meta:
+        model = TipoCartao
+        fields =  '__all__'
+
 class TipoLancamentoSerializer(ModelSerializer):
     class Meta:
         model = TipoLancamento

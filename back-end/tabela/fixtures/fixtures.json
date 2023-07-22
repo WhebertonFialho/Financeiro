@@ -1603,6 +1603,27 @@
         }
     },
     {
+        "model": "tabela.TipoCartao",
+        "pk": "C",
+        "fields": {
+            "descricao": "Crédito"
+        }
+    },
+    {
+        "model": "tabela.TipoCartao",
+        "pk": "D",
+        "fields": {
+            "descricao": "Debito"
+        }
+    },
+    {
+        "model": "tabela.TipoCartao",
+        "pk": "A",
+        "fields": {
+            "descricao": "Ambos"
+        }
+    },
+    {
         "model": "tabela.TipoLancamento",
         "pk": "R",
         "fields": {
