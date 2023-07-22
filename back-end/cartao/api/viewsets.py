@@ -8,4 +8,4 @@ class CartaoViewSet(ModelViewSet):
     #permission_classes = (IsAuthenticated,)
     queryset = Cartao.objects.all()
     serializer_class = CartaoSerializer
-    filterset_fields = ['codigo', 'descricao']
+    filterset_fields = ['codigo', 'descricao', 'usuario']

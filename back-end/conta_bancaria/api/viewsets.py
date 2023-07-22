@@ -8,4 +8,4 @@ class ContaBancariaViewSet(ModelViewSet):
     #permission_classes = (IsAuthenticated,)
     queryset = ContaBancaria.objects.all()
     serializer_class = ContaBancariaSerializer
-    filterset_fields = ['codigo', 'descricao', 'banco']
+    filterset_fields = ['codigo', 'descricao', 'banco', 'usuario']

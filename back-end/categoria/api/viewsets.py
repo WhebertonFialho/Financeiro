@@ -8,4 +8,4 @@ class CategoriaViewSet(ModelViewSet):
     #permission_classes = (IsAuthenticated,)
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
-    filterset_fields = ['codigo', 'descricao']
+    filterset_fields = ['codigo', 'descricao', 'usuario']
