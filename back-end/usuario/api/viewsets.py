@@ -17,7 +17,7 @@ class UsuariosViewSet(ModelViewSet):
     #permission_classes = (IsAuthenticated,)
     queryset = Usuario.objects.all()
     serializer_class = UsuariosSerializer
-    filterset_fields = ['id', 'email', 'nome', 'cpf', 'is_active', 'altera_senha']
+    filterset_fields = ['codigo', 'email', 'nome', 'cpf']
 
 class CadastroUsuarioViewSet(APIView):
     def post(self, request):

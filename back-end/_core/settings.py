@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'cartao',
     'categoria',
     'conta_bancaria',
+    'lancamento',
     'tabela',
     'usuario'
 ]
