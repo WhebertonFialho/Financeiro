@@ -11,10 +11,6 @@ export function Input({ inputRef, ...rest }: Props) {
   const { COLORS } = useTheme();
 
   return (
-    <Container
-      ref={inputRef}
-      placeholderTextColor={COLORS.GRAY_300}
-      {...rest} 
-    />
+    <Container ref={inputRef} placeholderTextColor={COLORS.GRAY_300} {...rest} />
   )
 }

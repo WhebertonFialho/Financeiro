@@ -1,5 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useTheme } from 'styled-components/native';
+import Toast from 'react-native-toast-message'
 
 import { Home } from '@screens/home';
 import { Configuracao } from '@screens/configuracao';
@@ -11,7 +12,7 @@ export function AppRoutes(){
   const { COLORS } = useTheme();
 
   const slyleMenu : StackNavigationOptions = {
-      //headerShown: false,
+      headerShown: false,
       drawerActiveBackgroundColor: {
         color: '#000'
       },
@@ -25,9 +26,12 @@ export function AppRoutes(){
   }
 
   return(
-    <Navigator screenOptions={ slyleMenu } >
-      <Screen name="Home" component={ Home } />
-      <Screen name="Configuração" component={ Configuracao } />
-    </Navigator>
+    <>
+      <Navigator screenOptions={ slyleMenu } >
+        <Screen name="Home" component={ Home } />
+        <Screen name="Configuração" component={ Configuracao } />
+      </Navigator>
+      <Toast />
+    </>
   );
 }
