@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { TextInput } from 'react-native'
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { AppToastSucesso, AppToastErro } from '@utils/appToast';
 
 import { Input } from '@components/Input';

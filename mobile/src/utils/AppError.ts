@@ -1,7 +1,7 @@
 export class AppError {
-    message: string;
-  
-    constructor(message: string) {
-      this.message = message;
-    }
+  menssagem: string;
+
+  constructor(menssagem : string) {
+    this.menssagem = menssagem;
   }
+}

@@ -3,6 +3,7 @@ import { useTheme } from 'styled-components/native';
 import Toast from 'react-native-toast-message'
 
 import { Home } from '@screens/home';
+import { Categoria } from '@screens/categoria';
 import { Configuracao } from '@screens/configuracao';
 
 import type { StackNavigationOptions } from '@react-navigation/stack';
@@ -29,6 +30,7 @@ export function AppRoutes(){
     <>
       <Navigator screenOptions={ slyleMenu } >
         <Screen name="Home" component={ Home } />
+        <Screen name="Categoria" component={ Categoria } />
         <Screen name="Configuração" component={ Configuracao } />
       </Navigator>
       <Toast />
