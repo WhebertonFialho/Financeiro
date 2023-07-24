@@ -27,6 +27,9 @@ export function Categoria(){
 
     async function handleGravarCategoria() {
         try {
+            if(decricaoCategoria.trim().length === 0)
+                return;
+
             setIsLoading(true);
             await CategoriaGravar(decricaoCategoria);
 
