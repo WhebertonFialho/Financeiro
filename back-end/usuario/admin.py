@@ -36,7 +36,7 @@ class UsuarioForm(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ('codigo', 'password', 'nome', 'email', 'cpf', 'is_active', 'is_admin', 'altera_senha')
+        fields = ('id', 'password', 'nome', 'email', 'cpf', 'is_active', 'is_admin', 'altera_senha')
 
     def clean_password(self):
         return self.initial["password"]

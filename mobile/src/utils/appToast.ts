@@ -1,6 +1,6 @@
 import Toast from 'react-native-toast-message';
 
-export function AppToastSucesso() {
+export function AppToastGravarSucesso() {
     Toast.show({
         type: 'success',
         text1: 'Gravar',
@@ -8,11 +8,27 @@ export function AppToastSucesso() {
     });
 }
 
-export function AppToastErro() {
+export function AppToastGravarErro() {
     Toast.show({
         type: 'error',
         text1: 'Atenção',
         text2: 'Falha ao gravar.'
+    });
+}
+
+export function AppToastSucesso(mensagem : string) {
+    Toast.show({
+        type: 'success',
+        text1: 'Sucesso',
+        text2: mensagem
+    });
+}
+
+export function AppToastErro(mensagem : string) {
+    Toast.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: mensagem
     });
 }
 

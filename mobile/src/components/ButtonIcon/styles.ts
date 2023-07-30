@@ -1,12 +1,16 @@
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
+import { useTheme } from 'styled-components/native';
+import { color } from 'react-native-reanimated';
 
-export type ButtonTypeProps = 'SUCCESS' | 'DANGER';
+export type ButtonTypeProps = 'SUCCESS' | 'DANGER' | 'PRIMARY';
 
 type Props = {
-  type: ButtonTypeProps;
+  tipo: ButtonTypeProps;
 }
+
+
 
 export const Container = styled(TouchableOpacity)`
   width: 56px;
@@ -18,7 +22,7 @@ export const Container = styled(TouchableOpacity)`
   margin-left: 12px;
 `;
 
-export const Icon = styled(MaterialIcons).attrs<Props>(({ theme, type }) => ({
+export const Icon = styled(MaterialIcons).attrs<Props>(({ theme, tipo }) => ({
   size: 24,
-  color: type === 'SUCCESS' ? theme.COLORS.GREEN_700 : theme.COLORS.RED
+  color: (tipo === 'SUCCESS' || tipo === 'DANGER' ? (tipo === 'SUCCESS' ? theme.COLORS.GREEN_700 : theme.COLORS.RED) : theme.COLORS.GRAY_300)
 }))``;

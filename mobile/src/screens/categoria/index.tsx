@@ -9,13 +9,13 @@ import { Loading } from '@components/Loading';
 
 import { ButtonIcon } from '@components/ButtonIcon'
 
-import { Container, Form, Lista } from "./styles";
+import { Container, Form } from "./styles";
 import { ScreenTitulo } from '@components/ScreenTitulo';
 import { ListaVazia } from '@components/ListaVazia';
 import { ListaItem } from '@components/ListaItem';
 import { AppToastInformacao } from '@utils/appToast';
-import { CategoriaStorageDTO } from '@storage/categoria/categoriaStorageDTO';
-import { categoriaBuscar } from '@storage/categoria/categoriaBuscar';
+import { CategoriaDTO } from '@storage/_DTOs/CategoriaDTO';
+import { CategoriaBuscar } from '@storage/categoria/categoriaBuscar';
 import { CategoriaGravar } from '@storage/categoria/categoriaGravar';
 import { CategoriaRemover } from '@storage/categoria/categoriaRemover';
 
@@ -23,7 +23,7 @@ export function Categoria(){
     const descricaoInputRef = useRef<TextInput>(null);
     const [ isLoading, setIsLoading] = useState(true);
     const [ decricaoCategoria, setDecricaoCategoria] = useState('');
-    const [ categorias, setCategorias ] = useState<CategoriaStorageDTO[]>([]);
+    const [ categorias, setCategorias ] = useState<CategoriaDTO[]>([]);
 
     async function handleGravarCategoria() {
         try {
@@ -72,7 +72,7 @@ export function Categoria(){
     async function handleAtualizaListaCategoria() {
         try {
             setIsLoading(true);
-            const storageCategorias = await categoriaBuscar();
+            const storageCategorias = await CategoriaBuscar();
             setCategorias(storageCategorias);
         } 
         catch (error) {

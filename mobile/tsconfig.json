@@ -10,8 +10,20 @@
       "@components/*": [
         "./src/components/*"
       ],
+      "@contexts/*": [
+        "./src/contexts/*"
+      ],
+      "@DTOs/*": [
+        "src/storage/_DTOs/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
       "@screens/*": [
         "./src/screens/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
       ],
       "@storage/*": [
         "./src/storage/*"

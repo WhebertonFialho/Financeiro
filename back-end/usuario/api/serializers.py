@@ -5,14 +5,14 @@ from django.contrib.auth.password_validation import validate_password
 class UsuariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['codigo', 'email', 'nome', 'cpf', 'is_active', 'altera_senha']
+        fields = ['id', 'email', 'nome', 'cpf', 'is_active', 'altera_senha']
 
 class CadastroUsuarioSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
         model = Usuario
-        fields = ['codigo', 'email', 'nome', 'cpf', 'altera_senha', 'password', 'password2']
+        fields = ['id', 'email', 'nome', 'cpf', 'altera_senha', 'password', 'password2']
         extra_kwargs = { 'password': {'write_only': True} }
 
     def save(self):

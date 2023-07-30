@@ -1,4 +1,4 @@
-export type CategoriaStorageDTO = {
+export type CategoriaDTO = {
   codigo: string;
   descricao: string;
 }

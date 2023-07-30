@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { CATEGORIA_COLLECTION } from '@storage/storageConfig';
-import { CategoriaStorageDTO } from './categoriaStorageDTO';
+import { CategoriaDTO } from '../_DTOs/CategoriaDTO';
 
-export async function categoriaBuscar() {
+export async function CategoriaBuscar() {
   try {
     const storage = await AsyncStorage.getItem(CATEGORIA_COLLECTION);
-    const categorias: CategoriaStorageDTO[] = storage ? JSON.parse(storage) : [];
+    const categorias: CategoriaDTO[] = storage ? JSON.parse(storage) : [];
 
     return categorias;
   } catch (error) {
