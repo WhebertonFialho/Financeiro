@@ -12,6 +12,7 @@ import { BancoGravar } from "@storage/banco/bancoGravar";
 import { BandeiraCartaoGravar } from "@storage/bandeiraCartao/bandeiraCartaoGravar";
 import { TipoCartaoGravar } from "@storage/tipoCartao/tipoCartaoGravar";
 import { TipoLancamentoGravar } from "@storage/tipoLancamento/tipoLancamentoGravar";
+import { delay } from "@utils/index";
 
 export async function SincronizacaoDados(){
     try {
@@ -19,6 +20,7 @@ export async function SincronizacaoDados(){
                 .then(response => { 
                     response.data.map((banco : BancoDTO) => {
                         BancoGravar(banco);
+                        delay(150); 
                     });
                  })
                 .catch(err => {
@@ -68,5 +70,7 @@ export async function SincronizacaoDados(){
     } catch (error) {
         if(error instanceof AppError)
             return AppToastErro(error.menssagem);
+        
+        console.log('vish')
     }
 }

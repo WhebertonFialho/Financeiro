@@ -29,8 +29,6 @@ export function Login() {
 
     const [ isLoading, setIsLoading ] = useState(false);
 
-
-
     async function handleLogin() {
         try {
             if(username.trim().length === 0 || password.trim().length === 0)

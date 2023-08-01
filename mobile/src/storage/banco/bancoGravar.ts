@@ -11,7 +11,7 @@ export async function BancoGravar(novoBanco: BancoDTO) {
 
     if(bancoExiste.length > 0) 
       return
-    
+      
     const storage = JSON.stringify([...storedBancos, novoBanco]);
     await AsyncStorage.setItem(BANCO_COLLECTION, storage);
 
