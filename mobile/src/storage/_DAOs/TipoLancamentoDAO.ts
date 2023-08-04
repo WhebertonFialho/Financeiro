@@ -10,6 +10,11 @@ db.transaction((tx) => {
 
 const Create = (tipoLancamento : TipoLancamentoDTO) => {
   return new Promise((resolve, reject) => {
+    RequestByCodigo(tipoLancamento.codigo)
+      .then( res => { 
+        return 
+      })
+      
     db.transaction((tx) => {
       tx.executeSql("INSERT INTO tab_tipo_lancamento (codigo, descricao) values (?, ?);", [ tipoLancamento.codigo, tipoLancamento.descricao ],
         (_, { rowsAffected, insertId }) => {

@@ -10,6 +10,12 @@ db.transaction((tx) => {
 
 const Create = (banco : BancoDTO) => {
     return new Promise((resolve, reject) => {
+
+      RequestByCodigo(banco.codigo)
+        .then( res => { 
+          resolve(banco) 
+        })
+
         db.transaction((tx) => {
             tx.executeSql("INSERT INTO tab_banco (codigo, descricao) values (?, ?);", [ banco.codigo, banco.descricao ],
                 (_, { rowsAffected, insertId }) => {
