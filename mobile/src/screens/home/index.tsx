@@ -8,6 +8,7 @@ import BancoDAO from '@storage/_DAOs/BancoDAO';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenTitulo } from '@components/ScreenTitulo';
+import { ComboBox } from '@components/ComboBox';
 import { Button } from '@components/Button';
 
 type comboBoxProps = {
@@ -24,22 +25,20 @@ export function Home() {
 
     async function carregarDados() {
         BancoDAO.RequestAll()
-            .then((retorno : BancoDTO[]) => (
+            .then((retorno : BancoDTO[]) => {
                 let lista : comboBoxProps[] = [];
                 retorno.map((banco : BancoDTO) => {
-                    lista = { ...lista, {
+                    lista = [ ...lista, {
                         value: banco.codigo,
                         label: banco.descricao
-                    } }
+                    }]
                 })
-                
+
                 setBancos(lista)
-            ))
+            })
             .catch(err => {
                 console.log('Erro ao Buscar: ');
-            })  
-
-        
+            })
     }
 
     function handleOnPressSair() {
@@ -54,17 +53,9 @@ export function Home() {
         <Container>
             <ScreenHeader/>
             <ScreenTitulo titulo='Home' />
+            {/* <ComboBox itens={ bancos } setItems={ setBancos } /> */}
+            <DropDownPicker open={ open } setOpen={ setOpen } value={ value } setValue={ setValue } items={ bancos } setItems={ setBancos } />
             <Button descricao='Sair' tipo='DANGER' onPress={ handleOnPressSair } />
-            <DropDownPicker
-                searchable={true}
-                open={open}
-                value={value}
-                items={bancos}
-                setValue={setValue}
-                setItems={setBancos}
-                setOpen={setOpen}
-                />
-
         </Container>
     )
 }
