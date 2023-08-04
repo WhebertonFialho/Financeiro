@@ -1,26 +1,27 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "./api";
 
 import { AppError } from "@utils/AppError";
 import { AppToastErro } from "@utils/appToast";
 
-import { BancoDTO } from "@DTOs/BancoDTO";
-import { BandeiraCartaoDTO } from "@DTOs/BandeiraCartaoDTO";
-import { TipoCartaoDTO } from "@DTOs/TipoCartaoDTO";
-import { TipoLancamentoDTO } from "@DTOs/TipoLancamentoDTO";
+import BancoDAO from "@storage/_DAOs/BancoDAO";
+import BandeiraCartaoDAO from "@storage/_DAOs/BandeiraCartaoDAO";
+import TipoCartaoDAO from "@storage/_DAOs/TipoCartaoDAO";
+import TipoLancamentoDAO from "@storage/_DAOs/TipoLancamentoDAO";
 
-import { BancoGravar } from "@storage/banco/bancoGravar";
-import { BandeiraCartaoGravar } from "@storage/bandeiraCartao/bandeiraCartaoGravar";
-import { TipoCartaoGravar } from "@storage/tipoCartao/tipoCartaoGravar";
-import { TipoLancamentoGravar } from "@storage/tipoLancamento/tipoLancamentoGravar";
-import { delay } from "@utils/index";
+import { BancoDTO } from "@storage/_DTOs/BancoDTO";
+import { BandeiraCartaoDTO } from "@storage/_DTOs/BandeiraCartaoDTO";
+import { TipoCartaoDTO } from "@storage/_DTOs/TipoCartaoDTO";
+import { TipoLancamentoDTO } from "@storage/_DTOs/TipoLancamentoDTO";
 
 export async function SincronizacaoDados(){
     try {
         await api.get('banco')
                 .then(response => { 
                     response.data.map((banco : BancoDTO) => {
-                        BancoGravar(banco);
-                        delay(150); 
+                        BancoDAO.Create(banco)
+                            .then( codigo => console.log('Banco criado com o código: ' + codigo) ) 
+                            .catch( err => console.log(err) );
                     });
                  })
                 .catch(err => {
@@ -33,7 +34,9 @@ export async function SincronizacaoDados(){
         await api.get('bandeira_cartao')
                 .then(response => { 
                     response.data.map((bandeiraCartao : BandeiraCartaoDTO) => {
-                        BandeiraCartaoGravar(bandeiraCartao);
+                        BandeiraCartaoDAO.Create(bandeiraCartao)
+                            .then( codigo => console.log('Bandeira do Cartão criado com o código: ' + codigo) )
+                            .catch( err => console.log(err) ); 
                     })
                  })
                 .catch(err => {
@@ -46,7 +49,9 @@ export async function SincronizacaoDados(){
         await api.get('tipo_cartao')
                 .then(response => { 
                     response.data.map((tipoCartao : TipoCartaoDTO) => {
-                        TipoCartaoGravar(tipoCartao);
+                        TipoCartaoDAO.Create(tipoCartao)
+                            .then( codigo => console.log('Tipo do Cartão criado com o código: ' + codigo) )
+                            .catch( err => console.log(err) ); 
                     });
                 }).catch(err => {
                     if(err instanceof AppError)
@@ -58,7 +63,9 @@ export async function SincronizacaoDados(){
         await api.get('tipo_lancamento')
                 .then(response => { 
                     response.data.map((tipoLancamento : TipoLancamentoDTO) => {
-                        TipoLancamentoGravar(tipoLancamento);
+                        TipoLancamentoDAO.Create(tipoLancamento)
+                            .then( codigo => console.log('Tipo de Lancamento criado com o código: ' + codigo) )
+                            .catch( err => console.log(err) ); 
                     });
                 }).catch(err => {
                     if(err instanceof AppError)

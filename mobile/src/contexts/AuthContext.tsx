@@ -4,7 +4,7 @@ import { storageAuthTokenSalvar, storageAuthTokenBuscar, storageAuthTokenRemover
 import { storageUsuarioBuscar, storageUsuarioRemover, storageUsuarioSalvar } from '@storage/auth/storageUsuario';
 
 import { api } from '@services/api';
-import { UsuarioDTO } from '@storage/_DTOs/UsuarioDTO'
+import { UsuarioDTO } from '@storage/DTOs/UsuarioDTO'
 import { configuracaoBuscar } from "@storage/configuracao/configuracaoBuscar";
 import { AppError } from "@utils/AppError";
 import { AppToastErro } from "@utils/appToast";

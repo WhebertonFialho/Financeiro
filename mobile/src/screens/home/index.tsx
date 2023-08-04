@@ -3,7 +3,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Container } from './styles';
 
 import { useAuth } from '@hooks/useAuth';
-import { BancoDTO } from '@DTOs/BancoDTO';
+import { BancoDTO } from '@storage/_DTOs/BancoDTO';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenTitulo } from '@components/ScreenTitulo';
@@ -23,22 +23,9 @@ export function Home() {
     const { signOut } = useAuth();
 
     async function carregarDados() {
-        const storage = await BancoBuscar();
-        const listaBancos = storage ? storage : [];
-        let lista : comboBoxProps[] = [];
-
-        console.log(storage)
-
-        listaBancos.map((item) => (
-            lista = [ ...lista, {
-                value: item.codigo,
-                label: item.descricao
-            }]
-        ))
         
-        console.log(lista)
 
-        setBancos(lista)
+        setBancos([])
     }
 
     function handleOnPressSair() {
