@@ -1,4 +1,4 @@
-import db from "@services/SQLiteDatabse";
+import db from "@services/SQLiteDatabase";
 
 import { TipoLancamentoDTO } from "@DTOs/TipoLancamentoDTO";
 
@@ -12,23 +12,24 @@ const Create = (tipoLancamento : TipoLancamentoDTO) => {
   return new Promise((resolve, reject) => {
     RequestByCodigo(tipoLancamento.codigo)
       .then( res => { 
-        return 
+        resolve(tipoLancamento.codigo) 
       })
-      
-    db.transaction((tx) => {
-      tx.executeSql("INSERT INTO tab_tipo_lancamento (codigo, descricao) values (?, ?);", [ tipoLancamento.codigo, tipoLancamento.descricao ],
-        (_, { rowsAffected, insertId }) => {
-          if (rowsAffected > 0) 
-            resolve(insertId);
-          else 
-            reject("Erro ao Gravar Registro: " + JSON.stringify(tipoLancamento));
-        },
-        (_, error) : boolean => { 
-            reject(error);
-            return false;
-        }
-      );
-    });
+      .catch(err => {
+        db.transaction((tx) => {
+          tx.executeSql("INSERT INTO tab_tipo_lancamento (codigo, descricao) values (?, ?);", [ tipoLancamento.codigo, tipoLancamento.descricao ],
+            (_, { rowsAffected, insertId }) => {
+              if (rowsAffected > 0) 
+                resolve(insertId);
+              else 
+                reject("Erro ao Gravar Registro: " + JSON.stringify(tipoLancamento));
+            },
+            (_, error) : boolean => { 
+                reject(error);
+                return false;
+            }
+          );
+        });
+      })
   });
 };
 

@@ -1,90 +1,91 @@
-import { useState, useRef, useCallback } from 'react';
+import uuid from 'react-native-uuid';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Alert, FlatList, TextInput } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native';
 
 import { AppError } from '@utils/AppError';
+import { AppToastErro, AppToastInformacao } from '@utils/appToast';
+import { storageUsuarioBuscar } from '@storage/auth/storageUsuario';
+
 import { ScreenHeader } from '@components/ScreenHeader';
 import { Input } from "@components/Input";
 import { Loading } from '@components/Loading';
-
 import { ButtonIcon } from '@components/ButtonIcon'
-
-import { Container, Form } from "./styles";
 import { ScreenTitulo } from '@components/ScreenTitulo';
 import { ListaVazia } from '@components/ListaVazia';
 import { ListaItem } from '@components/ListaItem';
-import { AppToastInformacao } from '@utils/appToast';
-import { CategoriaDTO } from '@storage/_DTOs/CategoriaDTO';
-import { CategoriaBuscar } from '@storage/categoria/categoriaBuscar';
-import { CategoriaGravar } from '@storage/categoria/categoriaGravar';
-import { CategoriaRemover } from '@storage/categoria/categoriaRemover';
 
-export function Categoria(){
+import CategoriaDAO from '@DAOs/CategoriaDAO';
+import { CategoriaDTO } from '@storage/_DTOs/CategoriaDTO';
+
+import { Container, Form } from "./styles";
+import { UsuarioDTO } from '@DTOs/UsuarioDTO';
+
+export function Categoria() {
     const descricaoInputRef = useRef<TextInput>(null);
-    const [ isLoading, setIsLoading] = useState(true);
+    const [ usuario, setUsuario ] = useState<UsuarioDTO>();
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ decricaoCategoria, setDecricaoCategoria] = useState('');
     const [ categorias, setCategorias ] = useState<CategoriaDTO[]>([]);
 
-    async function handleGravarCategoria() {
-        try {
-            if(decricaoCategoria.trim().length === 0)
-                return;
+    async function handleGravarCategoria() {     
+        if(decricaoCategoria.trim().length === 0)
+            return;
 
-            setIsLoading(true);
-            await CategoriaGravar(decricaoCategoria);
+        setIsLoading(true);
+        const novaCategoria : CategoriaDTO = { 
+            codigo: uuid.v4(), 
+            descricao: decricaoCategoria,
+            usuario: usuario?.id
+        };    
+        
 
-            setDecricaoCategoria('');
-            handleAtualizaListaCategoria();
-
-            descricaoInputRef.current?.blur();
-        } 
-        catch (error) {
-            if(error instanceof AppError)
-                AppToastInformacao(error.menssagem);
-            else {
-                console.log(error);
-            }    
-        }
-        finally {
-            setIsLoading(false);
-        }
+        CategoriaDAO.Create(novaCategoria)
+            .then((res) => {
+                console.log('Cadastrado com Sucesso');
+            })
+            .catch(erro => {
+                AppToastInformacao(erro);
+            })
+        
+        setDecricaoCategoria('');
+        handleAtualizaListaCategoria();
+        
+        setIsLoading(false);
+        descricaoInputRef.current?.blur();
+        
     }
 
     async function handleRemoverCategoria(codigo : string) {
-        try {
-            setIsLoading(true);
-            await CategoriaRemover(codigo);
+        setIsLoading(true);
+        
+        CategoriaDAO.Remove(codigo)
+            .then(res => {
+                handleAtualizaListaCategoria();
+            })
+            .catch(err => {
+                AppToastErro(err);
+            })
 
-            handleAtualizaListaCategoria();
-        } 
-        catch (error) {
-            if(error instanceof AppError)
-                AppToastInformacao(error.menssagem);
-            else {
-                console.log(error);
-            }    
-        }
-        finally {
-            setIsLoading(false);
-        }
+        setIsLoading(false);
     }
 
     async function handleAtualizaListaCategoria() {
         try {
+            
             setIsLoading(true);
-            const storageCategorias = await CategoriaBuscar();
-            setCategorias(storageCategorias);
-        } 
-        catch (error) {
-            if(error instanceof AppError)
-                AppToastInformacao(error.menssagem);
-            else {
-                console.log(error);
-                AppToastInformacao('Não foi possivel carregar categorias.');
-            }
-        }
-        finally {
+            CategoriaDAO.RequestAll(usuario?.id)
+                .then(categorias => {
+                    setCategorias(categorias);
+                })
+                .catch(err => {
+                    console.log('Não foi possivel carregar categorias.');
+                });
+            
             setIsLoading(false);
+
+        } catch (error) {
+            AppToastErro('Não foi possivel carregar categorias.');
         }
     }
 
@@ -97,12 +98,32 @@ export function Categoria(){
             { text: 'Sim', onPress: () => handleRemoverCategoria(codigo) }
           ]
         )
-      }
+    }
 
+    useEffect(() => {
+        handleAtualizaListaCategoria();
+    }, [usuario])
 
     useFocusEffect(useCallback(() => {
-        handleAtualizaListaCategoria()
-    },[]))
+        async function carregarDados() {
+            try {
+                setIsLoading(true);
+                const storageUsuario = await storageUsuarioBuscar();
+                setUsuario(storageUsuario);
+            } 
+            catch (error) {
+                if(error instanceof AppError)
+                    AppToastInformacao(error.menssagem);
+                else 
+                    AppToastInformacao('Não foi possivel carregar dados.');
+            }
+            finally {
+                setIsLoading(false);
+            }
+        }
+
+        carregarDados();
+    }, []))
 
     return(
         <Container>
@@ -113,7 +134,7 @@ export function Categoria(){
                 <Input autoCorrect={false} inputRef={ descricaoInputRef } value={ decricaoCategoria } onChangeText={ setDecricaoCategoria }
                     placeholder="Descrição da categoria" onSubmitEditing={ handleGravarCategoria } returnKeyType="done" />
 
-                <ButtonIcon icone="add" tipo='SUCCESS' onPress={handleGravarCategoria} />
+                <ButtonIcon icone="add" tipo='SUCCESS' onPress={ handleGravarCategoria } />
             </Form>
 
             { isLoading ? <Loading /> : 

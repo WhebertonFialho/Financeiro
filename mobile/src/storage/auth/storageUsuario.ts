@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { UsuarioDTO } from '@storage/DTOs/UsuarioDTO';
+import { UsuarioDTO } from '@storage/_DTOs/UsuarioDTO';
 import { USUARIO_STORAGE } from '@storage/storageConfig';
 
 export async function storageUsuarioSalvar(usuario: UsuarioDTO) {
@@ -9,9 +9,9 @@ export async function storageUsuarioSalvar(usuario: UsuarioDTO) {
 
 export async function storageUsuarioBuscar() {
   const storage = await AsyncStorage.getItem(USUARIO_STORAGE);
-  const user: UsuarioDTO = storage ? JSON.parse(storage) : {};
+  const user: UsuarioDTO[] = storage ? JSON.parse(storage) : {};
 
-  return user
+  return user[0] 
 }
 
 export async function storageUsuarioRemover() {

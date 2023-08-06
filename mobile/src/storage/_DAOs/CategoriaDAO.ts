@@ -1,47 +1,41 @@
 import db from "@services/SQLiteDatabase";
 
-import { BancoDTO } from "@storage/_DTOs/BancoDTO";
+import { CategoriaDTO } from "@storage/_DTOs/CategoriaDTO";
 
 db.transaction((tx) => {
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS tab_banco (codigo TEXT PRIMARY KEY, descricao TEXT);"
+    "CREATE TABLE IF NOT EXISTS cad_categoria (codigo TEXT PRIMARY KEY, descricao TEXT, usuario TEXT);"
   );
 });
 
-const Create = (banco : BancoDTO) => {
+const Create = (categoria : CategoriaDTO) => {
   return new Promise((resolve, reject) => {
-    RequestByCodigo(banco.codigo)
-      .then( res => { 
-        resolve(banco.codigo); 
-      })
-      .catch(err => {
-        db.transaction((tx) => {
-          tx.executeSql("INSERT INTO tab_banco (codigo, descricao) values (?, ?);", [ banco.codigo, banco.descricao ],
-            (_, { rowsAffected, insertId }) => {
-              if (rowsAffected > 0) 
-                resolve(insertId);
-              else 
-                reject("Erro ao Gravar Registro: " + JSON.stringify(banco));
-            },
-            (_, error) : boolean => { 
-              reject(error);
-              return false;
-            }
-          );
-        });
-      })
+    db.transaction((tx) => {
+      tx.executeSql("INSERT INTO cad_categoria (codigo, descricao, usuario) values (?, ?, ?);", [ categoria.codigo, categoria.descricao, categoria.usuario ],
+        (_, { rowsAffected, insertId }) => {
+          if (rowsAffected > 0) 
+            resolve(insertId);
+          else 
+            reject("Erro ao Gravar Registro: " + JSON.stringify(categoria));
+          },
+        (_, error) : boolean => { 
+          reject(error);
+          return false;
+        }
+      );
+    });
   });
 };
 
-const Update = ( banco : BancoDTO) => {
+const Update = ( categoria : CategoriaDTO) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql("UPDATE tab_banco SET descricao=? WHERE codigo=?;", [ banco.descricao, banco.codigo ],
+      tx.executeSql("UPDATE cad_categoria SET descricao=? usuario=? WHERE codigo=?;", [ categoria.descricao, categoria.usuario, categoria.codigo ],
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) 
             resolve(rowsAffected);
           else 
-            reject("Erro ao Alterar o Registro: codigo=" + banco.codigo);
+            reject("Erro ao Alterar o Registro: codigo=" + categoria.codigo);
         },
         (_, error) : boolean =>  { 
             reject(error);
@@ -55,7 +49,7 @@ const Update = ( banco : BancoDTO) => {
 const RequestByCodigo = (codigo : string) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM tab_banco WHERE codigo=?;", [ codigo ],
+      tx.executeSql("SELECT * FROM cad_categoria WHERE codigo=?;", [ codigo ],
         (_, { rows }) => {
           if (rows.length > 0) 
             resolve(rows._array[0]);
@@ -71,16 +65,16 @@ const RequestByCodigo = (codigo : string) => {
   });
 };
 
-const RequestAll = () => {
+const RequestAll = (usuario : string) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM tab_banco;", [],
+      tx.executeSql("SELECT * FROM cad_categoria WHERE usuario=?;", [ usuario ],
         (_, { rows }) => { 
-            resolve(rows._array);
+          resolve(rows._array);
         },
         (_, error) => { 
-            reject(error);
-            return false;
+          reject(error);
+          return false;
         }
       );
     });
@@ -90,7 +84,7 @@ const RequestAll = () => {
 const Remove = (codigo : string) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql("DELETE FROM tab_banco WHERE codigo=?;", [ codigo ],
+      tx.executeSql("DELETE FROM cad_categoria WHERE codigo=?;", [ codigo ],
         (_, { rowsAffected }) => {
           resolve(rowsAffected);
         },

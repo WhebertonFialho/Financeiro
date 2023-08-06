@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native';
-
-import { Loading } from '@components/Loading';
 import { Container } from './styles';
 
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
+
+import { Loading } from '@components/Loading';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenTitulo } from '@components/ScreenTitulo';
 import { ListaVazia } from '@components/ListaVazia';
@@ -11,15 +12,18 @@ import { Card } from '@components/Card';
 import { Button } from '@components/Button';
 
 export function ContaBancaria() {
+    const navigation = useNavigation();
+
     const [ isLoading, setIsLoading ] = useState(false);
     const [ contasBancaria, setContasBancaria ] = useState([]);
+    
 
     function handleAbrirContaBancaria(codigo : string){
 
     }
 
     function handleNovaContaBancaria(){
-
+        navigation.navigate('contaBancariaForm');
     }
 
     return(

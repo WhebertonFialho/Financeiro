@@ -1,21 +1,49 @@
-import { useState } from  'react';
-import { TouchableOpacityProps } from "react-native";
-import DropDownPicker, { DropDownPickerProps } from 'react-native-dropdown-picker';
-import { Container } from "./styles";
+import {  Dispatch, SetStateAction  } from 'react';
+import { Picker } from "@react-native-picker/picker";
+import { StyleSheet, View } from 'react-native';
+import { useTheme } from 'styled-components';
 
-type Props = DropDownPickerProps & {
-  items: [];
-  setItens: () => void;
+type ComboBoxProps = {
+  label: string;
+  value: string;
 }
 
-export function ComboBox({items, setItens, ...rest }: Props) {
-    const [ open, setOpen ] = useState(false);
-    const [ value, setValue ] = useState(null);
+type Props = {
+    itemSelecionado: [];
+    setItemSelecionado: Dispatch<SetStateAction<[]>>;
+    items: [];
+}
+
+
+export function ComboBox({ itemSelecionado, setItemSelecionado, items, ...rest }: Props) {
+    const { COLORS, FONT_FAMILY } = useTheme()
 
     return (
-        <Container>
-            <DropDownPicker open={ open } setOpen={ setOpen } value={ value } setValue={ setValue }
-                items={ items } setItems={ setItens } {...rest} />
-        </Container>
+        <View style={{backgroundColor: COLORS.GRAY_700}} >      
+            <Picker 
+                selectedValue={ itemSelecionado } 
+                onValueChange={ setItemSelecionado }  
+                placeholder="Selecione..."
+                dropdownIconColor={ COLORS.WHITE }
+                style={{ 
+                    color: COLORS.WHITE, 
+                    backgroundColor: COLORS.GRAY_700,
+                    borderWidth: 0, 
+                    overflow: "hidden",
+                    borderBottomColor: 'purple', 
+                }} 
+                
+                itemStyle={{ 
+                    backgroundColor: COLORS.GRAY_700,
+                }}>
+                    
+                        {
+                            items.map((cr : ComboBoxProps, I : number)=> {
+                                return <Picker.Item key={I} label={cr.label} value={cr.value} color={ COLORS.WHITE } style={{ backgroundColor: COLORS.GRAY_700 }} />
+                            })
+                        }
+                    
+            </Picker>   
+        </View>
     )
 }

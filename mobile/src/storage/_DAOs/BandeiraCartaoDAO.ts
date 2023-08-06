@@ -1,4 +1,4 @@
-import db from "@services/SQLiteDatabse";
+import db from "@services/SQLiteDatabase";
 
 import { BandeiraCartaoDTO } from "@DTOs/BandeiraCartaoDTO";
 
@@ -11,24 +11,25 @@ db.transaction((tx) => {
 const Create = (bandeiraCartao : BandeiraCartaoDTO) => {
   return new Promise((resolve, reject) => {
     RequestByCodigo(bandeiraCartao.codigo)
-        .then( res => { 
-          return 
-        })
-
-    db.transaction((tx) => {
-      tx.executeSql("INSERT INTO tab_bandeira_cartao (codigo, descricao) values (?, ?);", [ bandeiraCartao.codigo, bandeiraCartao.descricao ],
-        (_, { rowsAffected, insertId }) => {
-          if (rowsAffected > 0) 
-            resolve(insertId);
-          else 
-            reject("Erro ao Gravar Registro: " + JSON.stringify(bandeiraCartao));
-        },
-        (_, error) : boolean => { 
-            reject(error);
-            return false;
-        }
-      );
-    });
+      .then( res => { 
+        resolve(bandeiraCartao.codigo); 
+      })
+      .catch(err => {
+        db.transaction((tx) => {
+          tx.executeSql("INSERT INTO tab_bandeira_cartao (codigo, descricao) values (?, ?);", [ bandeiraCartao.codigo, bandeiraCartao.descricao ],
+            (_, { rowsAffected, insertId }) => {
+              if (rowsAffected > 0) 
+                resolve(insertId);
+              else 
+                reject("Erro ao Gravar Registro: " + JSON.stringify(bandeiraCartao));
+            },
+            (_, error) : boolean => { 
+              reject(error);
+              return false;
+            }
+          );
+      });
+    })
   });
 };
 

@@ -1,4 +1,4 @@
-import db from "@services/SQLiteDatabse";
+import db from "@services/SQLiteDatabase";
 
 import { TipoCartaoDTO } from "@DTOs/TipoCartaoDTO";
 
@@ -11,24 +11,25 @@ db.transaction((tx) => {
 const Create = (tipoCartao : TipoCartaoDTO) => {
   return new Promise((resolve, reject) => {
     RequestByCodigo(tipoCartao.codigo)
-        .then( res => { 
-          return 
-        })
-
-    db.transaction((tx) => {
-      tx.executeSql("INSERT INTO tab_tipo_cartao (codigo, descricao) values (?, ?);", [ tipoCartao.codigo, tipoCartao.descricao ],
-        (_, { rowsAffected, insertId }) => {
-          if (rowsAffected > 0) 
-            resolve(insertId);
-          else 
-            reject("Erro ao Gravar Registro: " + JSON.stringify(tipoCartao));
-        },
-        (_, error) : boolean => { 
-            reject(error);
-            return false;
-        }
-      );
-    });
+      .then( res => { 
+        resolve(tipoCartao.codigo) 
+      })
+      .catch(err => {
+        db.transaction((tx) => {
+          tx.executeSql("INSERT INTO tab_tipo_cartao (codigo, descricao) values (?, ?);", [ tipoCartao.codigo, tipoCartao.descricao ],
+            (_, { rowsAffected, insertId }) => {
+              if (rowsAffected > 0) 
+                resolve(insertId);
+              else 
+                reject("Erro ao Gravar Registro: " + JSON.stringify(tipoCartao));
+            },
+            (_, error) : boolean => { 
+              reject(error);
+              return false;
+            }
+          );
+        });
+      })
   });
 };
 

@@ -13,8 +13,11 @@
       "@contexts/*": [
         "./src/contexts/*"
       ],
+      "@DAOs/*": [
+        "./src/storage/_DAOs/*"
+      ],
       "@DTOs/*": [
-        "src/storage/_DTOs/*"
+        "./src/storage/_DTOs/*"
       ],
       "@hooks/*": [
         "./src/hooks/*"

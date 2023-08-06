@@ -4,7 +4,8 @@ import Toast from 'react-native-toast-message'
 
 import { Home } from '@screens/home';
 import { Categoria } from '@screens/categoria';
-import { ContaBancaria } from '@screens/contaBancaria'
+import { ContaBancaria } from '@screens/contaBancaria';
+import { ContaBancariaForm } from '@screens/contaBancaria/form';
 
 import type { StackNavigationOptions } from '@react-navigation/stack';
 
@@ -12,6 +13,7 @@ type AppRoutes = {
   Home: undefined;
   Categoria: undefined;
   "Conta Bancaria": undefined;
+  "contaBancariaForm": undefined;
 }
 
 const { Navigator, Screen } = createDrawerNavigator<AppRoutes>();
@@ -34,12 +36,22 @@ export function AppRoutes(){
       } 
   }
 
+  const hideScreenOption = {
+    title: "", 
+    headerShown: false, 
+    drawerLabel: () => null,
+    drawerItemStyle: { 
+      height: 0 
+    }
+  }
+
   return(
     <>
       <Navigator screenOptions={ slyleMenu } >
         <Screen name="Home" component={ Home } />
         <Screen name="Categoria" component={ Categoria } />
         <Screen name="Conta Bancaria" component={ ContaBancaria } />
+        <Screen name="contaBancariaForm" component={ ContaBancariaForm } options={ hideScreenOption } />
       </Navigator>
       <Toast />
     </>

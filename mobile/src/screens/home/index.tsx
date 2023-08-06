@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import DropDownPicker from 'react-native-dropdown-picker';
+
 import { Container } from './styles';
 
 import { useAuth } from '@hooks/useAuth';
@@ -17,16 +17,14 @@ type comboBoxProps = {
 }
 
 export function Home() {
-    const [ bancos, setBancos ] = useState<comboBoxProps[]>([]);
-    const [ open, setOpen ] = useState(false);
-    const [ value, setValue ] = useState(null);
-
     const { signOut } = useAuth();
+    const [ bancoSelecionado, setBancoSelecionado ] = useState<[]>([]);
+    const [ bancos, setBancos ] = useState<[]>([]);
 
     async function carregarDados() {
         BancoDAO.RequestAll()
-            .then((retorno : BancoDTO[]) => {
-                let lista : comboBoxProps[] = [];
+            .then((retorno) => {
+                let lista = [];
                 retorno.map((banco : BancoDTO) => {
                     lista = [ ...lista, {
                         value: banco.codigo,
@@ -45,6 +43,10 @@ export function Home() {
         signOut();
     }
 
+    function handleOnTeste(){
+        console.log(bancoSelecionado)
+    }
+
     useEffect(() => {
         carregarDados()
     }, [])
@@ -53,9 +55,11 @@ export function Home() {
         <Container>
             <ScreenHeader/>
             <ScreenTitulo titulo='Home' />
-            {/* <ComboBox itens={ bancos } setItems={ setBancos } /> */}
-            <DropDownPicker open={ open } setOpen={ setOpen } value={ value } setValue={ setValue } items={ bancos } setItems={ setBancos } />
+            <ComboBox itemSelecionado={bancoSelecionado} setItemSelecionado={setBancoSelecionado} items={bancos} />
             <Button descricao='Sair' tipo='DANGER' onPress={ handleOnPressSair } />
+            <Button descricao='Teste' tipo='SUCCESS' onPress={ handleOnTeste } />
+
         </Container>
     )
+
 }
