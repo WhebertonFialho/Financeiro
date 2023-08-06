@@ -19,12 +19,13 @@ type comboBoxProps = {
 export function Home() {
     const { signOut } = useAuth();
     const [ bancoSelecionado, setBancoSelecionado ] = useState<[]>([]);
-    const [ bancos, setBancos ] = useState<[]>([]);
+    const [ bancos, setBancos ] = useState<comboBoxProps[]>([]);
 
     async function carregarDados() {
+        let lista : comboBoxProps[] = [];
+
         BancoDAO.RequestAll()
             .then((retorno) => {
-                let lista = [];
                 retorno.map((banco : BancoDTO) => {
                     lista = [ ...lista, {
                         value: banco.codigo,

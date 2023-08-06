@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import { StyleSheet, View } from 'react-native';
 import { useTheme } from 'styled-components';
 
-type ComboBoxProps = {
+export type ComboBoxProps = {
   label: string;
   value: string;
 }
@@ -11,7 +11,7 @@ type ComboBoxProps = {
 type Props = {
     itemSelecionado: [];
     setItemSelecionado: Dispatch<SetStateAction<[]>>;
-    items: [];
+    items: ComboBoxProps[];
 }
 
 
@@ -31,6 +31,7 @@ export function ComboBox({ itemSelecionado, setItemSelecionado, items, ...rest }
                     borderWidth: 0, 
                     overflow: "hidden",
                     borderBottomColor: 'purple', 
+                    marginBottom: 5
                 }} 
                 
                 itemStyle={{ 
