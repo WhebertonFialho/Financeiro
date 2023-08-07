@@ -14,17 +14,12 @@ type Props = {
     items: ComboBoxProps[];
 }
 
-
 export function ComboBox({ itemSelecionado, setItemSelecionado, items, ...rest }: Props) {
     const { COLORS, FONT_FAMILY } = useTheme()
 
     return (
         <View style={{backgroundColor: COLORS.GRAY_700}} >      
-            <Picker 
-                selectedValue={ itemSelecionado } 
-                onValueChange={ setItemSelecionado }  
-                placeholder="Selecione..."
-                dropdownIconColor={ COLORS.WHITE }
+            <Picker selectedValue={ itemSelecionado } onValueChange={ setItemSelecionado } placeholder="Selecione..." dropdownIconColor={ COLORS.WHITE }
                 style={{ 
                     color: COLORS.WHITE, 
                     backgroundColor: COLORS.GRAY_700,
@@ -33,17 +28,14 @@ export function ComboBox({ itemSelecionado, setItemSelecionado, items, ...rest }
                     borderBottomColor: 'purple', 
                     marginBottom: 5
                 }} 
-                
                 itemStyle={{ 
                     backgroundColor: COLORS.GRAY_700,
                 }}>
-                    
-                        {
-                            items.map((cr : ComboBoxProps, I : number)=> {
-                                return <Picker.Item key={I} label={cr.label} value={cr.value} color={ COLORS.WHITE } style={{ backgroundColor: COLORS.GRAY_700 }} />
-                            })
-                        }
-                    
+                    {
+                        items.map((cr : ComboBoxProps, I : number)=> {
+                            return <Picker.Item key={I} label={cr.label} value={cr.value} color={ COLORS.WHITE } style={{ backgroundColor: COLORS.GRAY_700 }} />
+                        })
+                    }
             </Picker>   
         </View>
     )

@@ -23,7 +23,7 @@ export function AppRoutes(){
   const { COLORS } = useTheme();
 
   const slyleMenu : StackNavigationOptions = {
-      headerShown: false,
+      //headerShown: false,
       drawerActiveBackgroundColor: {
         color: '#000'
       },
