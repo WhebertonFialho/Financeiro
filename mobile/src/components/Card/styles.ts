@@ -13,7 +13,7 @@ export const Container = styled(TouchableOpacity)`
   align-items: flex-end;
 
   padding: 24px;
-  margin-bottom: 12px;
+  margin-bottom: 5px;
 `;
 
 export const Title = styled.Text`
@@ -31,5 +31,4 @@ export const Icon = styled(CaretRight).attrs(({ theme }) => ({
   
 }))`
     flex: 1;
-    margin-rigth: 5
 `;

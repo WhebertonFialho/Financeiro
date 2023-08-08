@@ -1,15 +1,8 @@
+import uuid from 'react-native-uuid'; 
 import { useState, useCallback } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { AppToastErro, AppToastInformacao } from '@utils/appToast';
+import { AppToastGravarErro, AppToastGravarSucesso, AppToastInformacao } from '@utils/appToast';
 import { AppError } from '@utils/AppError';
-import { Container, Form } from './styles';
-
-import { storageUsuarioBuscar } from '@storage/auth/storageUsuario';
-
-import { UsuarioDTO } from '@DTOs/UsuarioDTO';
-
-import { BancoDTO } from '@DTOs/BancoDTO';
-import BancoDAO from '@DAOs/BancoDAO'
 
 import { Loading } from '@components/Loading';
 import { ComboBox, ComboBoxProps } from '@components/ComboBox';
@@ -18,22 +11,75 @@ import { ScreenTitulo } from '@components/ScreenTitulo';
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 
+import { storageUsuarioBuscar } from '@storage/auth/storageUsuario';
+
+import BancoDAO from '@DAOs/BancoDAO';
+import ContaBancariaDAO from '@DAOs/ContaBancariaDAO';
+
+import { UsuarioDTO } from '@DTOs/UsuarioDTO';
+import { BancoDTO } from '@DTOs/BancoDTO';
+import { ContaBancariaDTO } from '@DTOs/ContaBancariaDTO'; 
+
+import { Container, Form } from './styles';
 
 export function ContaBancariaForm() {
     const navigation = useNavigation();
     const [ isLoading, setIsLoading ] = useState(true);
     const [ usuario, setUsuario ] = useState<UsuarioDTO>();
-    const [ bancoSelecionado, setBancoSelecionado ] = useState<[]>([]);
+    const [ bancoSelecionado, setBancoSelecionado ] = useState('');
     const [ bancos, setBancos ] = useState<ComboBoxProps[]>([]);
     
+    const [ codigoConta, setCodigoConta ] = useState<string>('');
     const [ descricaoConta, setDescricaoConta ] = useState('');
     const [ agenciaConta, setAgenciaConta ] = useState('');
     const [ numeroConta, setNumeroConta ] = useState('');
     const [ valorIncialConta, setValorIncialConta ] = useState('');
 
+    async function handleOnPressGravar() {
 
-    async function handleOnPressGravar(){
+        if(descricaoConta.trim().length === 0)
+            return AppToastInformacao('Preencha a Descrição.');
 
+        if(agenciaConta.trim().length === 0)
+            return AppToastInformacao('Preencha a Agencia.');
+
+        if(numeroConta.trim().length === 0)
+            return AppToastInformacao('Preencha a Numero Conta.');
+
+        const novaContaBancaria : ContaBancariaDTO = {
+            codigo: codigoConta.length === 0 ?  uuid.v4() : codigoConta,
+            descricao: descricaoConta,
+            banco: bancoSelecionado,
+            agencia: agenciaConta,
+            nro_conta: numeroConta,
+            valor_inicial: valorIncialConta,
+            usuario: usuario?.id
+        }
+
+        setIsLoading(true);
+        ContaBancariaDAO.RequestByCodigo(novaContaBancaria.codigo)
+            .then(res => {
+                ContaBancariaDAO.Update(novaContaBancaria)
+                    .then(res => {
+                        AppToastGravarSucesso();
+                        setIsLoading(false);
+                    })
+                    .catch(err => {
+                        AppToastGravarErro();
+                        setIsLoading(false)
+                    });
+            })
+            .catch(err => {
+                ContaBancariaDAO.Create(novaContaBancaria)
+                .then(res => {
+                    AppToastGravarSucesso();
+                    setIsLoading(false);
+                })
+                .catch(err => {
+                    AppToastGravarErro();
+                    setIsLoading(false)
+                })
+            })
     } 
 
     useFocusEffect(useCallback(() => {
@@ -71,7 +117,7 @@ export function ContaBancariaForm() {
         }
 
         carregarDados();
-    }, []))
+    }, []));
 
     return(
         <Container>
