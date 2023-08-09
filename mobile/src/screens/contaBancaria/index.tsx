@@ -22,11 +22,11 @@ export function ContaBancaria() {
     const [ contasBancaria, setContasBancaria ] = useState<ContaBancariaDTO[]>([]);
 
     function handleAbrirContaBancaria(codigo : string){
-        console.log(codigo);
+        navigation.navigate('contaBancariaForm', { codigoConta: codigo });
     }
 
     function handleNovaContaBancaria(){
-        navigation.navigate('contaBancariaForm');
+        navigation.navigate('contaBancariaForm', { codigoConta: '' });
     }
 
     useFocusEffect(useCallback(() => {

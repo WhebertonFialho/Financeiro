@@ -1,6 +1,6 @@
 import uuid from 'react-native-uuid'; 
 import { useState, useCallback } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { AppToastGravarErro, AppToastGravarSucesso, AppToastInformacao } from '@utils/appToast';
 import { AppError } from '@utils/AppError';
 
@@ -22,14 +22,20 @@ import { ContaBancariaDTO } from '@DTOs/ContaBancariaDTO';
 
 import { Container, Form } from './styles';
 
+type RouteParams = {
+    codigoConta: string;
+}
+
 export function ContaBancariaForm() {
     const navigation = useNavigation();
+    const route = useRoute();
+    const { codigoConta } = route.params as RouteParams;
+    
     const [ isLoading, setIsLoading ] = useState(true);
     const [ usuario, setUsuario ] = useState<UsuarioDTO>();
     const [ bancoSelecionado, setBancoSelecionado ] = useState('');
     const [ bancos, setBancos ] = useState<ComboBoxProps[]>([]);
     
-    const [ codigoConta, setCodigoConta ] = useState<string>('');
     const [ descricaoConta, setDescricaoConta ] = useState('');
     const [ agenciaConta, setAgenciaConta ] = useState('');
     const [ numeroConta, setNumeroConta ] = useState('');
@@ -113,6 +119,16 @@ export function ContaBancariaForm() {
                 })
                 .catch(err => {
                     console.log('Erro ao Buscar: ');
+                });
+
+            ContaBancariaDAO.RequestByCodigo(codigoConta)
+                .then(res => {
+                    
+                    setDescricaoConta(res.descricao);
+                    setAgenciaConta(res.agencia);
+                })
+                .catch(err => {
+                    console.log(err);
                 })
         }
 
