@@ -21,6 +21,7 @@ import { BancoDTO } from '@DTOs/BancoDTO';
 import { ContaBancariaDTO } from '@DTOs/ContaBancariaDTO'; 
 
 import { Container, Form } from './styles';
+import { ButtonIcon } from '@components/ButtonIcon';
 
 type RouteParams = {
     codigoConta: string;
@@ -40,6 +41,13 @@ export function ContaBancariaForm() {
     const [ agenciaConta, setAgenciaConta ] = useState('');
     const [ numeroConta, setNumeroConta ] = useState('');
     const [ valorIncialConta, setValorIncialConta ] = useState('');
+
+    function handleLimpaCampos(){
+        setDescricaoConta('');
+        setAgenciaConta('');
+        setNumeroConta('');
+        setValorIncialConta('');
+    }
 
     async function handleOnPressGravar() {
 
@@ -68,6 +76,7 @@ export function ContaBancariaForm() {
                 ContaBancariaDAO.Update(novaContaBancaria)
                     .then(res => {
                         AppToastGravarSucesso();
+                        handleLimpaCampos();
                         setIsLoading(false);
                     })
                     .catch(err => {
@@ -79,6 +88,7 @@ export function ContaBancariaForm() {
                 ContaBancariaDAO.Create(novaContaBancaria)
                 .then(res => {
                     AppToastGravarSucesso();
+                    handleLimpaCampos();
                     setIsLoading(false);
                 })
                 .catch(err => {
@@ -87,6 +97,10 @@ export function ContaBancariaForm() {
                 })
             })
     } 
+
+    async function handleOnPressExcluir() {
+
+    }
 
     useFocusEffect(useCallback(() => {
         async function carregarDados() {
@@ -120,18 +134,26 @@ export function ContaBancariaForm() {
                 .catch(err => {
                     console.log('Erro ao Buscar: ');
                 });
-
+            
+            setIsLoading(true);
+            console.log(codigoConta)
             ContaBancariaDAO.RequestByCodigo(codigoConta)
                 .then(res => {
-                    
                     setDescricaoConta(res.descricao);
                     setAgenciaConta(res.agencia);
+                    setBancoSelecionado(res.banco)
+                    setNumeroConta(res.nro_conta);
+                    setValorIncialConta(res.valor_inicial);
+
+                    setIsLoading(false);
                 })
                 .catch(err => {
                     console.log(err);
+                    setIsLoading(false);
                 })
         }
 
+        handleLimpaCampos();
         carregarDados();
     }, []));
 
@@ -157,7 +179,8 @@ export function ContaBancariaForm() {
                         onChangeText={ setValorIncialConta } placeholder="Valor Incial" style={{ marginBottom: 5 }} />
                 </Form>
             }
-            <Button descricao='Gravar' onPress={ handleOnPressGravar } />
+            <ButtonIcon icone='delete' tipo='DANGER' onPress={ handleOnPressExcluir } style={{  position: 'absolute', bottom: 24,  left: 5}} />
+            <Button descricao='Gravar' onPress={ handleOnPressGravar } style={{  position: 'absolute', bottom: 24, width: '85%', left: 80}} />
         </Container>
     )
 }

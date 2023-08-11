@@ -10,7 +10,6 @@ export const Container = styled(SafeAreaView)`
 
 export const Form = styled.View`
   width: 100%;
-  height: 65%;
   background-color: ${({ theme }) => theme.COLORS.GRAY_600};
   border-radius: 6px;
 `
