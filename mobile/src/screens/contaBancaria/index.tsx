@@ -22,6 +22,7 @@ export function ContaBancaria() {
     const [ contasBancaria, setContasBancaria ] = useState<ContaBancariaDTO[]>([]);
 
     function handleAbrirContaBancaria(codigo : string){
+        console.log(codigo)
         navigation.navigate('contaBancariaForm', { codigoConta: codigo });
     }
 
@@ -48,12 +49,12 @@ export function ContaBancaria() {
             <ScreenHeader/>
             <ScreenTitulo titulo='Conta Bancaria' />
             { isLoading ? <Loading /> :
-                <FlatList data={contasBancaria} 
-                    keyExtractor={item => item.codigo} 
+                <FlatList data={ contasBancaria } 
+                    keyExtractor={ item => item.codigo } 
                     ListEmptyComponent={() => ( <ListaVazia/> )} 
-                    contentContainerStyle={contasBancaria.length === 0 && { flex: 1 }}
+                    contentContainerStyle={ contasBancaria.length === 0 && { flex: 1 } }
                     renderItem={({ item }) => (
-                        <Card  titulo={item.descricao} onPress={() => handleAbrirContaBancaria(item.codigo)} /> 
+                        <Card titulo={ item.descricao } onPress={ () => handleAbrirContaBancaria(item.codigo) } /> 
                     )} 
                 />
             }

@@ -27,7 +27,7 @@ type RouteParams = {
     codigoConta: string;
 }
 
-export function ContaBancariaForm() {
+export function ContaBancariaForm({ props }) {
     const navigation = useNavigation();
     const route = useRoute();
     const { codigoConta } = route.params as RouteParams;
@@ -136,7 +136,8 @@ export function ContaBancariaForm() {
                 });
             
             setIsLoading(true);
-            console.log(codigoConta)
+            //console.log(codigoConta)
+            console.log(props)
             ContaBancariaDAO.RequestByCodigo(codigoConta)
                 .then(res => {
                     setDescricaoConta(res.descricao);
